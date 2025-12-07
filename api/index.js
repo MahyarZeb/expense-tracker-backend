@@ -1,36 +1,32 @@
-// api/index.js
-const serverless = require("serverless-http");
+//api/index.js
 const express = require("express");
+const serverless = require("serverless-http");
 const cors = require("cors");
 const transactionsRouter = require("./routes/transactions");
 const connectDB = require("./db");
-
-require("dotenv").config(); // for local dev, Vercel uses dashboard env vars
+require("dotenv").config();
 
 const app = express();
 
 // ----------------------
 // CORS CONFIGURATION
 // ----------------------
-// Allow only your frontend origin. Replace with your deployed frontend URL
-const FRONTEND_URL = 'https://expense-tracker-frontend1-three.vercel.app';
+// Allow your deployed frontend URL
+const FRONTEND_URL = "https://expense-tracker-frontend1-three.vercel.app";
 
 app.use(cors({
-  origin: FRONTEND_URL,
-  methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  origin: FRONTEND_URL,          // only allow your frontend
+  methods: ['GET','POST','DELETE','PUT','PATCH','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization'],
   credentials: true
 }));
 
-// For local development testing, you can uncomment this line to allow all origins
-// app.use(cors());
-
+// parse JSON
 app.use(express.json());
 
 // ----------------------
 // DATABASE CONNECTION
 // ----------------------
-// Use serverless-safe connection
 connectDB();
 
 // ----------------------
