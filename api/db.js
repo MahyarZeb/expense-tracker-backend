@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 let isConnected = false;
 
-async function connectDB() {
+async function connectDB(uri) {
   if (isConnected) return;
 
   try {
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
+    const conn = await mongoose.connect(uri || process.env.MONGO_URI, {
       serverSelectionTimeoutMS: 30000
     });
 
