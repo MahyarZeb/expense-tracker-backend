@@ -2,7 +2,13 @@ const mongoose = require("mongoose");
 
 let isConnected = false;
 
-async function connectDB(uri) {
+async function connectDB() {
+  // Skip DB during tests
+  if (process.env.NODE_ENV === "test") {
+    console.log("Skipping MongoDB connection for tests");
+    return;
+  }
+
   if (isConnected) return;
 
   try {
