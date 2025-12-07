@@ -13,7 +13,7 @@ const app = express();
 // CORS CONFIGURATION
 // ----------------------
 // Allow only your frontend origin. Replace with your deployed frontend URL
-const FRONTEND_URL = 'https://expense-tracker-frontend1-three.vercel.app';
+const FRONTEND_URL = 'https://expense-tracker-frontend1-three.vercel.app/';
 
 app.use(cors({
   origin: FRONTEND_URL,
