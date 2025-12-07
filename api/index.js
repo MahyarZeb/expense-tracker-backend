@@ -1,19 +1,44 @@
+// api/index.js
+const serverless = require("serverless-http");
 const express = require("express");
 const cors = require("cors");
-const serverless = require("serverless-http");
+const transactionsRouter = require("./routes/transactions");
 const connectDB = require("./db");
 
-const transactionsRouter = require("./routes/transactions");
+require("dotenv").config(); // for local dev, Vercel uses dashboard env vars
 
 const app = express();
-app.use(cors());
+
+// ----------------------
+// CORS CONFIGURATION
+// ----------------------
+// Allow only your frontend origin. Replace with your deployed frontend URL
+const FRONTEND_URL = 'https://expense-tracker-frontend1-three.vercel.app';
+
+app.use(cors({
+  origin: FRONTEND_URL,
+  methods: ['GET', 'POST', 'DELETE', 'PUT', 'PATCH'],
+  credentials: true
+}));
+
+// For local development testing, you can uncomment this line to allow all origins
+// app.use(cors());
+
 app.use(express.json());
 
-// Connect to DB
+// ----------------------
+// DATABASE CONNECTION
+// ----------------------
+// Use serverless-safe connection
 connectDB();
 
-// Routes
+// ----------------------
+// ROUTES
+// ----------------------
 app.use("/api/v1/transactions", transactionsRouter);
 
+// ----------------------
+// EXPORT FOR VERCEL
+// ----------------------
 module.exports = app;
 module.exports.handler = serverless(app);
