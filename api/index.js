@@ -1,3 +1,4 @@
+// api/index.js
 const serverless = require("serverless-http");
 const express = require("express");
 const cors = require("cors");
@@ -11,24 +12,16 @@ const app = express();
 // ----------------------
 // CORS CONFIGURATION
 // ----------------------
-// Allow your frontend URL
-const FRONTEND_URL = "https://expense-tracker-frontend1-three.vercel.app";
+const FRONTEND_URL = 'https://expense-tracker-frontend1-three.vercel.app'; // deployed frontend URL
 
-// Apply CORS middleware before routes
 app.use(cors({
-  origin: FRONTEND_URL,       // no trailing slash
-  methods: ["GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  origin: FRONTEND_URL,  // allow frontend
+  methods: ['GET','POST','DELETE','PUT','PATCH'],
   credentials: true
 }));
 
-// Handle preflight requests explicitly
-app.options("*", cors({
-  origin: FRONTEND_URL,
-  methods: ["GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
-}));
+// For testing, you can allow all origins temporarily:
+// app.use(cors());
 
 app.use(express.json());
 
